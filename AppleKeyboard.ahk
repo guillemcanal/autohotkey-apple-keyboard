@@ -28,9 +28,6 @@
 RAlt & F7::SendInput {Media_Prev}
 RAlt & F8::SendInput {Media_Play_Pause}
 RAlt & F9::SendInput {Media_Next}
-F10::SendInput {Volume_Mute}
-F11::SendInput {Volume_Down}
-F12::SendInput {Volume_Up}
 
 ; Eject Key
 F20::SendInput {Insert}
@@ -65,15 +62,8 @@ F15::SendInput {Pause}
 ; Opening
 #o::Send ^o
 
-; Do not apply in Explorer since Win + F is already in use
-; If you don't care, feel free to uncomment the mapping in between
-; the IfWinNotActive block.
-#IfWinNotActive, ahk_class CabinetWClass
-
 ; Finding
 #f::Send ^f
-
-#IfWinNotActive
 
 ; Undo
 #z::Send ^z
@@ -96,81 +86,27 @@ Lwin & Tab::AltTab
 ; Minimize windows
 #m::WinMinimize,a
 
-; --------------------------------------------------------------
-; OS X keyboard mappings for special chars
-; --------------------------------------------------------------
+; Explorer Global Search
+#IfWinActive, ahk_class CabinetWClass
+#g::Send #f
+#IfWinActive
 
-; Map Alt + n to ~
+; -------------------------------------------------------------
+; Applications support
 ;
-; NOTE: This rule will output a tilde at first stroke,
-; thanks to that weird dot backspace trick. If you want 
-; the default behavior, remove the .{BS} part
-!n::SendInput ~.{BS}
+; Note: Feel free to uncomment application specific mappings
+; -------------------------------------------------------------
 
-; ---------------------------------------------------------------
-; Application specific
-; --------------------------------------------------------------
+#Include apps\chrome.ahk
+#Include apps\mintty.ahk
 
-; Google Chrome
-#IfWinActive, ahk_class Chrome_WidgetWin_1
+; -------------------------------------------------------------
+; Optional key mappings
+;
+; Note: Feel free to uncomment optional key mappings
+; Filenames are self-explanatory
+; -------------------------------------------------------------
 
-; Show Web Developer Tools with cmd + alt + i
-#!i::Send {F12}
-
-; Show source code with cmd + alt + u
-#!u::Send ^u
-
-#IfWinActive
-
-; ---------------------------------------------------------------
-; Recycle Bin shortcuts
-; ---------------------------------------------------------------
-
-; Empty trash Cmd + Shift + BackSpace
-#+BS::
-    ; 260 Set the MsgBox Prompt to No
-    MsgBox, 260, Recycle bin, Are you sure you want to empty your trash?
-    IfMsgBox Yes
-        ; This will empty you trash on the C: drive
-        ; more info here: http://www.autohotkey.com/docs/commands/FileRecycleEmpty.htm
-        FileRecycleEmpty, C:\
-return
-
-; Delete Files Selection Cmd + Backspace
-#IfWinActive, ahk_class Progman ; Target Desktop
-#BS::
-#IfWinActive, ahk_class CabinetWClass ; Target Explorer
-#BS::
-    ; Copy selection
-    Send, ^c
-    ClipWait, 0.1
-    clipboardContent := Clipboard
-
-    ; Put each file in the trash
-    Loop, parse, clipboardContent, `n, `r
-    {
-        If FileExist(A_LoopField)
-        FileRecycle, %A_LoopField%
-    }
-return
-
-#IfWinActive
-
-; ---------------------------------------------------------------
-; Natural scroll
-; 
-; NOTE: By default, Windows scroll 3 lines at a time,
-; you may want to reduce this value when using the trackpad.
-; To do so, go to: 
-; Start > Control Panel > Change mouse wheel settings.
-; ---------------------------------------------------------------
-
-#MaxHotkeysPerInterval 200
-
-WheelUp::
-Send {WheelDown}
-Return
-
-WheelDown::
-Send {WheelUp}
-Return
+#Include utils\special_chars.ahk
+#Include utils\natural_scroll.ahk
+#Include utils\recycle_bin.ahk
