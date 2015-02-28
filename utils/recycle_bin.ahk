@@ -13,9 +13,9 @@
 return
 
 ; Delete Files Selection (Cmd + Backspace)
-#IfWinActive, ahk_class Progman ; Target Desktop
+#IfWinActive, ahk_class Progman
 #BS::
-#IfWinActive, ahk_class CabinetWClass ; Target Explorer
+#IfWinActive, ahk_class CabinetWClass
 #BS::
     Send {Delete}
 return
