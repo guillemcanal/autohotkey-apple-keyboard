@@ -77,6 +77,9 @@ F15::SendInput {Pause}
 ; Close tab
 #w::Send ^w
 
+; Refresh Tab
+#r::Send {F5}
+
 ; Close windows (cmd + q to Alt + F4)
 #q::Send !{F4}
 
@@ -97,8 +100,8 @@ Lwin & Tab::AltTab
 ; Note: Feel free to uncomment application specific mappings
 ; -------------------------------------------------------------
 
-#Include apps\chrome.ahk
-#Include apps\mintty.ahk
+Include apps\chrome.ahk
+Include apps\mintty.ahk
 
 ; -------------------------------------------------------------
 ; Optional key mappings
@@ -107,6 +110,6 @@ Lwin & Tab::AltTab
 ; Filenames are self-explanatory
 ; -------------------------------------------------------------
 
-#Include utils\special_chars.ahk
-#Include utils\natural_scroll.ahk
-#Include utils\recycle_bin.ahk
+Include utils\special_chars.ahk
+Include utils\natural_scroll.ahk
+Include utils\recycle_bin.ahk
