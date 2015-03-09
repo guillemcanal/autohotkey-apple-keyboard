@@ -18,6 +18,7 @@
 ;
 ;====================================================================
 
+
 ; --------------------------------------------------------------
 ; Special keys all mapped to the right option key
 ;
@@ -94,14 +95,15 @@ Lwin & Tab::AltTab
 #g::Send #f
 #IfWinActive
 
+
 ; -------------------------------------------------------------
 ; Applications support
 ;
 ; Note: Feel free to uncomment application specific mappings
 ; -------------------------------------------------------------
 
-Include apps\chrome.ahk
-Include apps\mintty.ahk
+#Include apps\chrome.ahk
+#Include apps\mintty.ahk
 
 ; -------------------------------------------------------------
 ; Optional key mappings
@@ -110,6 +112,19 @@ Include apps\mintty.ahk
 ; Filenames are self-explanatory
 ; -------------------------------------------------------------
 
-Include utils\special_chars.ahk
-Include utils\natural_scroll.ahk
-Include utils\recycle_bin.ahk
+#Include utils\special_chars.ahk
+#Include utils\natural_scroll.ahk
+#Include utils\recycle_bin.ahk
+
+; -------------------------------------------------------------
+; Hacks
+; -------------------------------------------------------------
+
+; Allow Lock Workstation override
+; See: http://www.autohotkey.com/board/topic/95733-wanna-override-win-l/
+#l::
+	RegWrite, REG_DWORD, HKEY_CURRENT_USER, Software\Microsoft\Windows\CurrentVersion\Policies\System, DisableLockWorkstation, 0
+	DllCall("LockWorkStation")
+	sleep, 1000
+	RegWrite, REG_DWORD, HKEY_CURRENT_USER, Software\Microsoft\Windows\CurrentVersion\Policies\System, DisableLockWorkstation, 1
+return 

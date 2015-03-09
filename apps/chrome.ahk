@@ -10,4 +10,7 @@
 ; Show source code with (Cmd + Alt + u)
 #!u::Send ^u
 
+; Select AddressBar
+#l::Send ^l
+
 #IfWinActive
